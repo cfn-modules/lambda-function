@@ -1,0 +1,246 @@
+---
+# Copyright 2018 widdix GmbH
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'cfn-modules: AWS Lambda function'
+# cfn-modules:implements(ExposeArn, ExposeName, LambdaDependency)
+Parameters:
+  AlertingModule:
+    Description: 'Optional but recommended stack name of alerting module.'
+    Type: String
+    Default: ''
+  KmsKeyModule:
+    Description: 'Optional but recommended stack name of kms-key module.'
+    Type: String
+    Default: ''
+  VpcModule:
+    Description: 'Optional stack name of vpc module.'
+    Type: String
+    Default: ''
+  DeadLetterQueueModule:
+    Description: 'Optional but recommended for async invocations stack name of sqs-queue module where Lambda sends events to after the maximum number of retries was reached'
+    Type: String
+    Default: ''
+  Description:
+    Description: 'Optional description of the function'
+    Type: String
+    Default: ''
+  Handler:
+    Description: 'The name of the function (within your source code) that Lambda calls to start running your code'
+    Type: String
+  MemorySize:
+    Description: 'The amount of memory, in MB, that is allocated to your Lambda function'
+    Type: Number
+    Default: 128
+  ReservedConcurrentExecutions:
+    Type: Number
+    Default: -1
+  Runtime:
+    Description: 'The runtime environment for the Lambda function that you are uploading'
+    Type: String
+    AllowedValues: ['nodejs6.10', 'nodejs8.10', java8, 'python2.7', 'python3.6', 'dotnetcore1.0', 'dotnetcore2.0', 'go1.x']
+  Timeout:
+    Description: 'The function execution time at which Lambda should terminate the function'
+    Type: Number
+    Default: 3
+    MinValue: 1
+    MaxValue: 300
+  TracingConfigMode:
+    Type: String
+    Default: PassThrough
+    AllowedValues: [PassThrough, Active]
+  LogGroupRetentionInDays:
+    Description: 'The number of days log events are kept in CloudWatch Logs'
+    Type: Number
+    Default: 14
+    AllowedValues: [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
+  ModuleDependency1:
+    Description: 'Optional stack name of module implementing LambdaDependency to generate IAM Policy'
+    Type: String
+    Default: ''
+  ModuleDependency2:
+    Description: 'Optional stack name of module implementing LambdaDependency to generate IAM Policy'
+    Type: String
+    Default: ''
+  ModuleDependency3:
+    Description: 'Optional stack name of module implementing LambdaDependency to generate IAM Policy'
+    Type: String
+    Default: ''
+  AllowApiGatewayAccess:
+    Description: 'Allow invoke access from API Gateways from the same AWS account and region?'
+    Type: String
+    Default: true
+    AllowedValues: [true, false]
+Conditions:
+  HasAlertingModule: !Not [!Equals [!Ref AlertingModule, '']]
+  HasKmsKeyModule: !Not [!Equals [!Ref KmsKeyModule, '']]
+  HasDeadLetterQueueModule: !Not [!Equals [!Ref DeadLetterQueueModule, '']]
+  HasReservedConcurrentExecutions: !Not [!Equals [!Ref ReservedConcurrentExecutions, -1]]
+  HasVpcModule: !Not [!Equals [!Ref VpcModule, '']]
+  HasModuleDependency1: !Not [!Equals [!Ref ModuleDependency1, '']]
+  HasModuleDependency2: !Not [!Equals [!Ref ModuleDependency2, '']]
+  HasModuleDependency3: !Not [!Equals [!Ref ModuleDependency3, '']]
+  HasModuleDependencies: !Or [!Condition HasModuleDependency1, !Condition HasModuleDependency2, !Condition HasModuleDependency3]
+  HasAllowApiGatewayAccess: !Equals [!Ref AllowApiGatewayAccess, true]
+Resources:
+  Role:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: 'lambda.amazonaws.com'
+          Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies: !If
+      - HasModuleDependencies
+      - - PolicyName: 'cfn-modules'
+          PolicyDocument:
+            Statement:
+            - Effect: Allow
+              Action:
+              - 'logs:CreateLogStream'
+              - 'logs:PutLogEvents'
+              Resource: '*' # TODO would be nice if IAM would support an ARN here!
+            - !If
+              - HasModuleDependency1
+              - Effect: Allow
+                Action: !Split [',', {'Fn::ImportValue': !Sub '${ModuleDependency1}-IamActions'}]
+                Resource: !Split [',', {'Fn::ImportValue': !Sub '${ModuleDependency1}-IamResources'}]
+              - !Ref 'AWS::NoValue'
+            - !If
+              - HasModuleDependency2
+              - Effect: Allow
+                Action: !Split [',', {'Fn::ImportValue': !Sub '${ModuleDependency2}-IamActions'}]
+                Resource: !Split [',', {'Fn::ImportValue': !Sub '${ModuleDependency2}-IamResources'}]
+              - !Ref 'AWS::NoValue'
+            - !If
+              - HasModuleDependency3
+              - Effect: Allow
+                Action: !Split [',', {'Fn::ImportValue': !Sub '${ModuleDependency3}-IamActions'}]
+                Resource: !Split [',', {'Fn::ImportValue': !Sub '${ModuleDependency3}-IamResources'}]
+              - !Ref 'AWS::NoValue'
+      - !Ref 'AWS::NoValue'
+  SecurityGroup:
+    Condition: HasVpcModule
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: !Ref AWS::StackName
+      VpcId:
+        'Fn::ImportValue': !Sub '${VpcModule}-Id'
+  LogGroup:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${AWS::StackName}'
+      RetentionInDays: !Ref LogGroupRetentionInDays
+  Function:
+    Type: 'AWS::Lambda::Function'
+    DependsOn: LogGroup
+    Properties:
+      Code: '../../../lambdas/'
+      DeadLetterConfig: !If [HasDeadLetterQueueModule, {TargetArn: {'Fn::ImportValue': !Sub '${DeadLetterQueueModule}-Arn'}}, !Ref 'AWS::NoValue']
+      Description: !Ref Description
+      Environment:
+        Variables: # TODO how to handle this? Seems to be impossible...
+          DEPENDENCY1_ARN: !If [HasModuleDependency1, {'Fn::ImportValue': !Sub '${ModuleDependency1}-Arn'}, '']
+          DEPENDENCY2_ARN: !If [HasModuleDependency2, {'Fn::ImportValue': !Sub '${ModuleDependency2}-Arn'}, '']
+          DEPENDENCY3_ARN: !If [HasModuleDependency3, {'Fn::ImportValue': !Sub '${ModuleDependency3}-Arn'}, '']
+      FunctionName: !Ref 'AWS::StackName'
+      Handler: !Ref Handler
+      KmsKeyArn: !If [HasKmsKeyModule, {'Fn::ImportValue': !Sub '${KmsKeyModule}-Arn'}, !Ref 'AWS::NoValue']
+      MemorySize: !Ref MemorySize
+      ReservedConcurrentExecutions: !If [HasReservedConcurrentExecutions, !Ref ReservedConcurrentExecutions, !Ref 'AWS::NoValue']
+      Role: !GetAtt 'Role.Arn'
+      Runtime: !Ref Runtime
+      Timeout: !Ref Timeout
+      TracingConfig:
+        Mode: !Ref TracingConfigMode
+      VpcConfig: !If
+      - HasVpcModule
+      - SecurityGroupIds: [!Ref SecurityGroup]
+        SubnetIds: !Split [',', {'Fn::ImportValue': !Sub '${VpcModule}-SubnetIdsPrivate'}]
+      - !Ref 'AWS::NoValue'
+  ErrorsTooHighAlarm:
+    Condition: HasAlertingModule
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: 'Invocations failed due to errors in the function'
+      Namespace: 'AWS/Lambda'
+      MetricName: Errors
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 1
+      ComparisonOperator: GreaterThanThreshold
+      Threshold: 0
+      AlarmActions:
+      - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
+      OKActions:
+      - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
+      Dimensions:
+      - Name: FunctionName
+        Value: !Ref Function
+  ThrottlesTooHighAlarm:
+    Condition: HasAlertingModule
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: 'Invocation attempts that were throttled due to invocation rates exceeding the concurrent limits'
+      Namespace: 'AWS/Lambda'
+      MetricName: Throttles
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 1
+      ComparisonOperator: GreaterThanThreshold
+      Threshold: 0
+      AlarmActions:
+      - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
+      OKActions:
+      - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
+      Dimensions:
+      - Name: FunctionName
+        Value: !Ref Function
+  PermissionApiGateway:
+    Condition: HasAllowApiGatewayAccess
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName: !GetAtt 'Function.Arn'
+      Principal: 'apigateway.amazonaws.com'
+      #SourceAccount: !Ref 'AWS::AccountId' # only for s3 and ses
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*'
+Outputs:
+  ModuleId:
+    Value: 'lambda-function'
+  ModuleVersion:
+    Value: '0.0.9'
+  StackName:
+    Value: !Ref 'AWS::StackName'
+  Arn:
+    Value: !GetAtt 'Function.Arn'
+    Export:
+      Name: !Sub '${AWS::StackName}-Arn'
+  IamActions:
+    Value: 'lambda:InvokeFunction'
+    Export:
+      Name: !Sub '${AWS::StackName}-IamActions'
+  IamResources:
+    Value: !GetAtt Function.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-IamResources'
+  Name:
+    Value: !Ref Function
+    Export:
+      Name: !Sub '${AWS::StackName}-Name'
