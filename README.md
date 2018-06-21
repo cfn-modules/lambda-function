@@ -14,7 +14,7 @@ npm i @cfn-modules/lambda-function
 
 > The lambda source code must be in the folder `lambdas`.
 
-> If you pass in a module dependency (e.g. `ModuleDependency1`), the environment variable `DEPENDENCY1_ARN` inside the Lambda function will contain the ARN of the dependency.
+> If you pass in a module dependency (e.g. `DependencyModule1`), the environment variable `DEPENDENCY1_ARN` inside the Lambda function will contain the ARN of the dependency.
 
 ```
 ---
@@ -37,9 +37,9 @@ Resources:
         Timeout: 3 # optional
         TracingConfigMode: PassThrough # optional
         LogGroupRetentionInDays: 14 # optional
-        ModuleDependency1: !GetAtt 'Queue.Outputs.StackName' # optional
-        ModuleDependency2: !GetAtt 'Table.Outputs.StackName' # optional
-        ModuleDependency3: '' # optional
+        DependencyModule1: !GetAtt 'Queue.Outputs.StackName' # optional
+        DependencyModule2: !GetAtt 'Table.Outputs.StackName' # optional
+        DependencyModule3: '' # optional
         AllowApiGatewayAccess: true # optional
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
@@ -142,21 +142,21 @@ Resources:
       <td>[1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]</td>
     </tr>
     <tr>
-      <td>ModuleDependency1</td>
+      <td>DependencyModule1</td>
       <td>Stack name of module implementing LambdaDependency to generate IAM Policy</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
-      <td>ModuleDependency2</td>
+      <td>DependencyModule2</td>
       <td>Stack name of module implementing LambdaDependency to generate IAM Policy</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
-      <td>ModuleDependency3</td>
+      <td>DependencyModule3</td>
       <td>Stack name of module implementing LambdaDependency to generate IAM Policy</td>
       <td></td>
       <td>no</td>
