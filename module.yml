@@ -16,7 +16,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'cfn-modules: AWS Lambda function'
 # cfn-modules:implements(ExposeArn, ExposeName, LambdaDependency)
 # TODO integrate with event sources
-# * Amazon S3 (via s3-bucket module)
 # * Amazon DynamoDB (via standalone module using AWS::Lambda::EventSourceMapping)
 # * Amazon Kinesis Data Streams (via standalone module using AWS::Lambda::EventSourceMapping)
 # * Amazon Simple Notification Service (via standalone module using AWS::SNS::Subscription)
@@ -96,8 +95,13 @@ Parameters:
     Description: 'Optional stack name of module implementing LambdaDependency to generate IAM Policy'
     Type: String
     Default: ''
-  AllowApiGatewayAccess:
+  ApiGatewayAccess:
     Description: 'Allow invoke access from API gateways from the same AWS account and region?'
+    Type: String
+    Default: true
+    AllowedValues: [true, false]
+  S3BucketAccess:
+    Description: 'Allow invoke access from S3 buckets from the same AWS account?'
     Type: String
     Default: true
     AllowedValues: [true, false]
@@ -111,7 +115,8 @@ Conditions:
   HasDependencyModule2: !Not [!Equals [!Ref DependencyModule2, '']]
   HasDependencyModule3: !Not [!Equals [!Ref DependencyModule3, '']]
   HasDependencyModules: !Or [!Condition HasDependencyModule1, !Condition HasDependencyModule2, !Condition HasDependencyModule3]
-  HasAllowApiGatewayAccess: !Equals [!Ref AllowApiGatewayAccess, true]
+  HasApiGatewayAccess: !Equals [!Ref ApiGatewayAccess, true]
+  HasS3BucketAccess: !Equals [!Ref S3BucketAccess, true]
 Resources:
   Role:
     Type: 'AWS::IAM::Role'
@@ -232,7 +237,7 @@ Resources:
       - Name: FunctionName
         Value: !Ref Function
   PermissionApiGateway:
-    Condition: HasAllowApiGatewayAccess
+    Condition: HasApiGatewayAccess
     Type: 'AWS::Lambda::Permission'
     Properties:
       Action: 'lambda:invokeFunction'
@@ -240,11 +245,20 @@ Resources:
       Principal: 'apigateway.amazonaws.com'
       #SourceAccount: !Ref 'AWS::AccountId' # only for s3 and ses
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*'
+  PermissionS3:
+    Condition: HasS3BucketAccess
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:invokeFunction'
+      FunctionName: !GetAtt 'Function.Arn'
+      Principal: 's3.amazonaws.com'
+      SourceAccount: !Ref 'AWS::AccountId'
+      #SourceArn: !GetAtt 'Bucket.Arn'
 Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.13'
+    Value: '0.0.14'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
@@ -267,4 +281,7 @@ Outputs:
     Value: !GetAtt 'Role.Arn'
     Export:
       Name: !Sub '${AWS::StackName}-RoleArn'
-
+  RoleName:
+    Value: !Ref Role
+    Export:
+      Name: !Sub '${AWS::StackName}-RoleName'

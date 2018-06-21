@@ -40,7 +40,8 @@ Resources:
         DependencyModule1: !GetAtt 'Queue.Outputs.StackName' # optional
         DependencyModule2: !GetAtt 'Table.Outputs.StackName' # optional
         DependencyModule3: '' # optional
-        AllowApiGatewayAccess: true # optional
+        ApiGatewayAccess: true # optional
+        S3BucketAccess: true # optional
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
 
@@ -163,10 +164,17 @@ Resources:
       <td></td>
     </tr>
     <tr>
-      <td>AllowApiGatewayAccess</td>
+      <td>ApiGatewayAccess</td>
       <td>Allow invoke access from API gateways from the same AWS account and region?</td>
       <td>true</td>
       <td>no</td>
+      <td>[true, false]</td>
+    </tr>
+    <tr>
+      <td>S3BucketAccessy</td>
+      <td>Allow invoke access from S3 buckets from the same AWS account?</td>
+      <td>true</td>
+      <td>no></td>
       <td>[true, false]</td>
     </tr>
   </tbody>
