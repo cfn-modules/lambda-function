@@ -243,7 +243,6 @@ Resources:
       Action: 'lambda:invokeFunction'
       FunctionName: !GetAtt 'Function.Arn'
       Principal: 'apigateway.amazonaws.com'
-      #SourceAccount: !Ref 'AWS::AccountId' # only for s3 and ses
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*'
   PermissionS3:
     Condition: HasS3BucketAccess
@@ -253,7 +252,6 @@ Resources:
       FunctionName: !GetAtt 'Function.Arn'
       Principal: 's3.amazonaws.com'
       SourceAccount: !Ref 'AWS::AccountId'
-      #SourceArn: !GetAtt 'Bucket.Arn'
 Outputs:
   ModuleId:
     Value: 'lambda-function'
