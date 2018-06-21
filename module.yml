@@ -126,7 +126,7 @@ Resources:
       ManagedPolicyArns:
       - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
       Policies: !If
-      - HasModuleDependencies
+      - HasDependencyModules
       - - PolicyName: 'cfn-modules'
           PolicyDocument:
             Statement:
@@ -244,7 +244,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.12'
+    Value: '0.0.13'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
