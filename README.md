@@ -45,6 +45,11 @@ Resources:
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
 
+### Event sources
+
+* [lambda-event-source-cron](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-cron)
+* [s3-bucket](https://www.npmjs.com/package/@cfn-modules/s3-bucket)
+
 ## Parameters
 
 <table>

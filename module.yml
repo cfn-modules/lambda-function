@@ -25,7 +25,6 @@ Description: 'cfn-modules: AWS Lambda function'
 # * Amazon CloudWatch Logs (via TODO)
 # * Amazon CloudWatch Events (via standalone module using AWS::Events::Rule)
 # * AWS CodeCommit (via TODO)
-# * Scheduled Events (via standalone module using AWS::Events::Rule)
 # * AWS Config (via TODO)
 # * Amazon Alexa (via TODO)
 # * Amazon Lex (via TODO)
