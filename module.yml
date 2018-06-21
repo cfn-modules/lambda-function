@@ -225,13 +225,17 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.10'
+    Value: '0.0.11'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
     Value: !GetAtt 'Function.Arn'
     Export:
       Name: !Sub '${AWS::StackName}-Arn'
+  Name:
+    Value: !Ref Function
+    Export:
+      Name: !Sub '${AWS::StackName}-Name'
   IamActions:
     Value: 'lambda:InvokeFunction'
     Export:
@@ -240,7 +244,8 @@ Outputs:
     Value: !GetAtt Function.Arn
     Export:
       Name: !Sub '${AWS::StackName}-IamResources'
-  Name:
-    Value: !Ref Function
+  RoleArn:
+    Value: !GetAtt 'Role.Arn'
     Export:
-      Name: !Sub '${AWS::StackName}-Name'
+      Name: !Sub '${AWS::StackName}-RoleArn'
+
