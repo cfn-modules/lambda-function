@@ -164,7 +164,7 @@ Resources:
     </tr>
     <tr>
       <td>AllowApiGatewayAccess</td>
-      <td>Allow invoke access from API Gateways from the same AWS account and region?</td>
+      <td>Allow invoke access from API gateways from the same AWS account and region?</td>
       <td>true</td>
       <td>no</td>
       <td>[true, false]</td>

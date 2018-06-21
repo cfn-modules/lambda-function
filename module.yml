@@ -97,7 +97,7 @@ Parameters:
     Type: String
     Default: ''
   AllowApiGatewayAccess:
-    Description: 'Allow invoke access from API Gateways from the same AWS account and region?'
+    Description: 'Allow invoke access from API gateways from the same AWS account and region?'
     Type: String
     Default: true
     AllowedValues: [true, false]
