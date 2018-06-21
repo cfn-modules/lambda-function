@@ -1,7 +1,8 @@
 {
   "name": "@cfn-modules/lambda-function",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "AWS Lambda function with automated IAM policy generation, encryption, log group and alerting",
   "author": "Michael Wittig <michael@widdix.de>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "keywords": ["cfn-modules", "cfn-modules:ExposeArn", "cfn-modules:ExposeName", "cfn-modules:LambdaDependency"]
 }
