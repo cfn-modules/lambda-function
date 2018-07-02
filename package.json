@@ -1,8 +1,16 @@
 {
   "name": "@cfn-modules/lambda-function",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "AWS Lambda function with automated IAM policy generation, encryption, log group and alerting",
   "author": "Michael Wittig <michael@widdix.de>",
   "license": "Apache-2.0",
-  "keywords": ["cfn-modules", "cfn-modules:ExposeArn", "cfn-modules:ExposeName", "cfn-modules:LambdaDependency"]
+  "keywords": ["cfn-modules", "cfn-modules:ExposeArn", "cfn-modules:ExposeName", "cfn-modules:LambdaDependency"],
+  "homepage": "https://github.com/cfn-modules",
+  "bugs": {
+    "url": "https://github.com/cfn-modules/lambda-function/issues"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/cfn-modules/lambda-function.git"
+  }
 }
