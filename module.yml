@@ -16,8 +16,8 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'cfn-modules: AWS Lambda function'
 # cfn-modules:implements(ExposeArn, ExposeName, LambdaDependency)
 # TODO integrate with event sources
-# * Amazon DynamoDB (via standalone module using AWS::Lambda::EventSourceMapping)
-# * Amazon Kinesis Data Streams (via standalone module using AWS::Lambda::EventSourceMapping)
+# * Amazon DynamoDB (via standalone module using AWS::Lambda::EventSourceMapping, waits for DynamoDB stream support in dynamodb-table module)
+# * Amazon Kinesis Data Streams (via standalone module using AWS::Lambda::EventSourceMapping, waits for Kinesis stream module)
 # * Amazon Simple Notification Service (via standalone module using AWS::SNS::Subscription)
 # * Amazon Simple Email Service (via TODO)
 # * Amazon Cognito (via TODO)
@@ -113,7 +113,6 @@ Conditions:
   HasDependencyModule1: !Not [!Equals [!Ref DependencyModule1, '']]
   HasDependencyModule2: !Not [!Equals [!Ref DependencyModule2, '']]
   HasDependencyModule3: !Not [!Equals [!Ref DependencyModule3, '']]
-  HasDependencyModules: !Or [!Condition HasDependencyModule1, !Condition HasDependencyModule2, !Condition HasDependencyModule3]
   HasApiGatewayAccess: !Equals [!Ref ApiGatewayAccess, true]
   HasS3BucketAccess: !Equals [!Ref S3BucketAccess, true]
 Resources:
@@ -127,37 +126,33 @@ Resources:
           Principal:
             Service: 'lambda.amazonaws.com'
           Action: 'sts:AssumeRole'
-      ManagedPolicyArns:
-      - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
-      Policies: !If
-      - HasDependencyModules
-      - - PolicyName: 'cfn-modules'
-          PolicyDocument:
-            Statement:
+      Policies:
+      - PolicyName: 'cfn-modules'
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - 'logs:CreateLogStream'
+            - 'logs:PutLogEvents'
+            Resource: '*' # TODO would be nice if IAM would support an ARN here!
+          - !If
+            - HasDependencyModule1
             - Effect: Allow
-              Action:
-              - 'logs:CreateLogStream'
-              - 'logs:PutLogEvents'
-              Resource: '*' # TODO would be nice if IAM would support an ARN here!
-            - !If
-              - HasDependencyModule1
-              - Effect: Allow
-                Action: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule1}-IamActions'}]
-                Resource: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule1}-IamResources'}]
-              - !Ref 'AWS::NoValue'
-            - !If
-              - HasDependencyModule2
-              - Effect: Allow
-                Action: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule2}-IamActions'}]
-                Resource: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule2}-IamResources'}]
-              - !Ref 'AWS::NoValue'
-            - !If
-              - HasDependencyModule3
-              - Effect: Allow
-                Action: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule3}-IamActions'}]
-                Resource: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule3}-IamResources'}]
-              - !Ref 'AWS::NoValue'
-      - !Ref 'AWS::NoValue'
+              Action: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule1}-IamActions'}]
+              Resource: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule1}-IamResources'}]
+            - !Ref 'AWS::NoValue'
+          - !If
+            - HasDependencyModule2
+            - Effect: Allow
+              Action: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule2}-IamActions'}]
+              Resource: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule2}-IamResources'}]
+            - !Ref 'AWS::NoValue'
+          - !If
+            - HasDependencyModule3
+            - Effect: Allow
+              Action: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule3}-IamActions'}]
+              Resource: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule3}-IamResources'}]
+            - !Ref 'AWS::NoValue'
   SecurityGroup:
     Condition: HasVpcModule
     Type: 'AWS::EC2::SecurityGroup'
@@ -255,7 +250,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.14'
+    Value: '0.0.15'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
