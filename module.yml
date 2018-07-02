@@ -134,7 +134,7 @@ Resources:
             Action:
             - 'logs:CreateLogStream'
             - 'logs:PutLogEvents'
-            Resource: '*' # TODO would be nice if IAM would support an ARN here!
+            Resource: '*' # would be nice if IAM would support an ARN here!
           - !If
             - HasDependencyModule1
             - Effect: Allow
@@ -177,7 +177,7 @@ Resources:
           DEPENDENCY1_ARN: !If [HasDependencyModule1, {'Fn::ImportValue': !Sub '${DependencyModule1}-Arn'}, '']
           DEPENDENCY2_ARN: !If [HasDependencyModule2, {'Fn::ImportValue': !Sub '${DependencyModule2}-Arn'}, '']
           DEPENDENCY3_ARN: !If [HasDependencyModule3, {'Fn::ImportValue': !Sub '${DependencyModule3}-Arn'}, '']
-      FunctionName: !Ref 'AWS::StackName'
+      FunctionName: !Ref 'AWS::StackName' # we need to "fix" the name to be able to create the LogGroup in advance
       Handler: !Ref Handler
       KmsKeyArn: !If [HasKmsKeyModule, {'Fn::ImportValue': !Sub '${KmsKeyModule}-Arn'}, !Ref 'AWS::NoValue']
       MemorySize: !Ref MemorySize
