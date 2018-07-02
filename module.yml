@@ -60,6 +60,8 @@ Parameters:
     Description: 'The amount of memory, in MB, that is allocated to your Lambda function'
     Type: Number
     Default: 128
+    MinValue: 128
+    MaxValue: 3008
   ReservedConcurrentExecutions:
     Type: Number
     Default: -1
