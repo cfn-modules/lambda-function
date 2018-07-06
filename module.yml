@@ -54,7 +54,7 @@ Parameters:
     Type: String
     Default: ''
   Handler:
-    Description: 'The name of the function (within your source code) that Lambda calls to start running your code'
+    Description: 'The name of the function (within your source code) that Lambda calls to start running your code (file must be in the lambda-src folder)'
     Type: String
   MemorySize:
     Description: 'The amount of memory, in MB, that is allocated to your Lambda function'
@@ -171,7 +171,7 @@ Resources:
     Type: 'AWS::Lambda::Function'
     DependsOn: LogGroup
     Properties:
-      Code: '../../../lambdas/'
+      Code: '../../../lambda-src/'
       DeadLetterConfig: !If [HasDeadLetterQueueModule, {TargetArn: {'Fn::ImportValue': !Sub '${DeadLetterQueueModule}-Arn'}}, !Ref 'AWS::NoValue']
       Description: !Ref Description
       Environment:
@@ -252,7 +252,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.16'
+    Value: '0.0.17'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:

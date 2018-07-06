@@ -12,7 +12,7 @@ npm i @cfn-modules/lambda-function
 
 ## Usage
 
-> The lambda source code must be in the folder `lambdas`.
+> The lambda source code must be in the folder `lambda-src`.
 
 > If you pass in a module dependency (e.g. `DependencyModule1`), the environment variable `DEPENDENCY1_ARN` inside the Lambda function will contain the ARN of the dependency.
 
@@ -30,7 +30,7 @@ Resources:
         VpcModule: !GetAtt 'Vpc.Outputs.StackName' # optional
         DeadLetterQueueModule: !GetAtt 'Queue.Outputs.StackName' # optional
         Description: '' # optional
-        Handler: 'example.handler' # required (file must be in the lambdas folder)
+        Handler: 'example.handler' # required (file must be in the `lambda-src` folder)
         MemorySize: 128 # optional
         ReservedConcurrentExecutions: -1 # optional
         Runtime: 'nodejs8.10' # required
@@ -101,7 +101,7 @@ Resources:
     </tr>
     <tr>
       <td>Handler</td>
-      <td>The name of the function (within your source code) that Lambda calls to start running your code</td>
+      <td>The name of the function (within your source code) that Lambda calls to start running your code (file must be in the `lambda-src` folder)</td>
       <td></td>
       <td>yes</td>
       <td></td>
