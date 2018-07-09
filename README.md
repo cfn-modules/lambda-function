@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/cfn-modules/lambda-function.svg?branch=master)](https://travis-ci.org/cfn-modules/lambda-function)
+[![NPM version](https://img.shields.io/npm/v/@cfn-modules/lambda-function.svg)](https://www.npmjs.com/package/@cfn-modules/lambda-function)
+
 # cfn-modules: AWS Lambda function
 
 AWS Lambda function with automated IAM policy generation, encryption, log group and [alerting](https://www.npmjs.com/package/@cfn-modules/alerting).
