@@ -96,16 +96,6 @@ Parameters:
     Description: 'Optional stack name of module implementing LambdaDependency to generate IAM Policy'
     Type: String
     Default: ''
-  ApiGatewayAccess:
-    Description: 'Allow invoke access from API gateways from the same AWS account and region?'
-    Type: String
-    Default: true
-    AllowedValues: [true, false]
-  S3BucketAccess:
-    Description: 'Allow invoke access from S3 buckets from the same AWS account?'
-    Type: String
-    Default: true
-    AllowedValues: [true, false]
 Conditions:
   HasAlertingModule: !Not [!Equals [!Ref AlertingModule, '']]
   HasKmsKeyModule: !Not [!Equals [!Ref KmsKeyModule, '']]
@@ -115,8 +105,6 @@ Conditions:
   HasDependencyModule1: !Not [!Equals [!Ref DependencyModule1, '']]
   HasDependencyModule2: !Not [!Equals [!Ref DependencyModule2, '']]
   HasDependencyModule3: !Not [!Equals [!Ref DependencyModule3, '']]
-  HasApiGatewayAccess: !Equals [!Ref ApiGatewayAccess, true]
-  HasS3BucketAccess: !Equals [!Ref S3BucketAccess, true]
 Resources:
   Role:
     Type: 'AWS::IAM::Role'
@@ -232,27 +220,11 @@ Resources:
       Dimensions:
       - Name: FunctionName
         Value: !Ref Function
-  PermissionApiGateway:
-    Condition: HasApiGatewayAccess
-    Type: 'AWS::Lambda::Permission'
-    Properties:
-      Action: 'lambda:invokeFunction'
-      FunctionName: !GetAtt 'Function.Arn'
-      Principal: 'apigateway.amazonaws.com'
-      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*'
-  PermissionS3:
-    Condition: HasS3BucketAccess
-    Type: 'AWS::Lambda::Permission'
-    Properties:
-      Action: 'lambda:invokeFunction'
-      FunctionName: !GetAtt 'Function.Arn'
-      Principal: 's3.amazonaws.com'
-      SourceAccount: !Ref 'AWS::AccountId'
 Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.17'
+    Value: '0.0.18'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
