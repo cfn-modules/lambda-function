@@ -7,5 +7,5 @@ install:
 - 'pip install cfn-lint'
 script:
 - 'yamllint module.yml'
-- '#cfn-lint module.yml' # TODO false positives
+- 'cfn-lint -i E3002 E2507 -t module.yml ' # TODO false positives in rules E3002 E2507
 - 'grep -q "LICENSE-2.0" module.yml'
