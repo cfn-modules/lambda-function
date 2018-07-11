@@ -51,6 +51,7 @@ Resources:
 * [Cron](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-cron)
 * [SQS queue](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-sqs-queue)
 * [S3 bucket](https://www.npmjs.com/package/@cfn-modules/s3-bucket)
+* [Webhook](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-webhook)
 
 ## Parameters
 
