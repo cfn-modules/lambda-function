@@ -49,6 +49,7 @@ Resources:
 ### Event sources
 
 * [Cron](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-cron)
+* [DynamoDB stream](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-dynamodb-stream)
 * [SQS queue](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-sqs-queue)
 * [S3 bucket](https://www.npmjs.com/package/@cfn-modules/s3-bucket)
 * [Webhook](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-webhook)
