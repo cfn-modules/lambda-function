@@ -96,6 +96,18 @@ Parameters:
     Description: 'Optional stack name of module implementing LambdaDependency to generate IAM Policy'
     Type: String
     Default: ''
+  EnvironmentVariable1:
+    Description: 'Optional value of environment variable VARIABLE1'
+    Type: String
+    Default: ''
+  EnvironmentVariable2:
+    Description: 'Optional value of environment variable VARIABLE2'
+    Type: String
+    Default: ''
+  EnvironmentVariable3:
+    Description: 'Optional value of environment variable VARIABLE3'
+    Type: String
+    Default: ''
 Conditions:
   HasAlertingModule: !Not [!Equals [!Ref AlertingModule, '']]
   HasKmsKeyModule: !Not [!Equals [!Ref KmsKeyModule, '']]
@@ -163,7 +175,10 @@ Resources:
       DeadLetterConfig: !If [HasDeadLetterQueueModule, {TargetArn: {'Fn::ImportValue': !Sub '${DeadLetterQueueModule}-Arn'}}, !Ref 'AWS::NoValue']
       Description: !Ref Description
       Environment:
-        Variables: # TODO how to handle this? Seems to be impossible...
+        Variables:
+          VARIABLE1: !Ref EnvironmentVariable1
+          VARIABLE2: !Ref EnvironmentVariable2
+          VARIABLE3: !Ref EnvironmentVariable3
           DEPENDENCY1_ARN: !If [HasDependencyModule1, {'Fn::ImportValue': !Sub '${DependencyModule1}-Arn'}, '']
           DEPENDENCY2_ARN: !If [HasDependencyModule2, {'Fn::ImportValue': !Sub '${DependencyModule2}-Arn'}, '']
           DEPENDENCY3_ARN: !If [HasDependencyModule3, {'Fn::ImportValue': !Sub '${DependencyModule3}-Arn'}, '']
@@ -224,7 +239,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.18'
+    Value: '0.0.19'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:

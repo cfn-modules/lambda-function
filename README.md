@@ -34,15 +34,18 @@ Resources:
         DeadLetterQueueModule: !GetAtt 'Queue.Outputs.StackName' # optional
         Description: '' # optional
         Handler: 'example.handler' # required (file must be in the `lambda-src` folder)
-        MemorySize: 128 # optional
-        ReservedConcurrentExecutions: -1 # optional
+        MemorySize: '128' # optional
+        ReservedConcurrentExecutions: '-1' # optional
         Runtime: 'nodejs8.10' # required
-        Timeout: 3 # optional
+        Timeout: '3' # optional
         TracingConfigMode: PassThrough # optional
-        LogGroupRetentionInDays: 14 # optional
+        LogGroupRetentionInDays: '14' # optional
         DependencyModule1: !GetAtt 'Queue.Outputs.StackName' # optional
         DependencyModule2: !GetAtt 'Table.Outputs.StackName' # optional
         DependencyModule3: '' # optional
+        EnvironmentVariable1: '' # optional
+        EnvironmentVariable2: '' # optional
+        EnvironmentVariable3: '' # optional
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
 
@@ -168,6 +171,27 @@ Resources:
     <tr>
       <td>DependencyModule3</td>
       <td>Stack name of module implementing LambdaDependency to generate IAM Policy</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>EnvironmentVariable1</td>
+      <td>Optional value of environment variable VARIABLE1</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>EnvironmentVariable2</td>
+      <td>Optional value of environment variable VARIABLE2</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>EnvironmentVariable3</td>
+      <td>Optional value of environment variable VARIABLE3</td>
       <td></td>
       <td>no</td>
       <td></td>
