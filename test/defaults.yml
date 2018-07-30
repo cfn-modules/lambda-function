@@ -1,0 +1,11 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'cfn-modules test'
+Resources:
+  Function:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      Parameters:
+        Handler: 'defaults.handler'
+        Runtime: 'nodejs8.10'
+      TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
