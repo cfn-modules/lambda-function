@@ -165,7 +165,7 @@ Resources:
   LogGroup:
     Type: 'AWS::Logs::LogGroup'
     Properties:
-      LogGroupName: !Sub '/aws/lambda/${AWS::StackName}'
+      LogGroupName: !Join ['', ['/aws/lambda/cfn-modules-lambda-', !Select [2, !Split ['/', !Ref 'AWS::StackId']]]]
       RetentionInDays: !Ref LogGroupRetentionInDays
   Function:
     Type: 'AWS::Lambda::Function'
@@ -182,7 +182,7 @@ Resources:
           DEPENDENCY1_ARN: !If [HasDependencyModule1, {'Fn::ImportValue': !Sub '${DependencyModule1}-Arn'}, '']
           DEPENDENCY2_ARN: !If [HasDependencyModule2, {'Fn::ImportValue': !Sub '${DependencyModule2}-Arn'}, '']
           DEPENDENCY3_ARN: !If [HasDependencyModule3, {'Fn::ImportValue': !Sub '${DependencyModule3}-Arn'}, '']
-      FunctionName: !Ref 'AWS::StackName' # we need to "fix" the name to be able to create the LogGroup in advance
+      FunctionName: !Join ['', ['cfn-modules-lambda-', !Select [2, !Split ['/', !Ref 'AWS::StackId']]]] # we need to "fix" the name to be able to create the LogGroup in advance
       Handler: !Ref Handler
       KmsKeyArn: !If [HasKmsKeyModule, {'Fn::ImportValue': !Sub '${KmsKeyModule}-Arn'}, !Ref 'AWS::NoValue']
       MemorySize: !Ref MemorySize
@@ -239,7 +239,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '0.0.19'
+    Value: '0.0.20'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
