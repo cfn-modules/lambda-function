@@ -156,42 +156,42 @@ Resources:
     </tr>
     <tr>
       <td>DependencyModule1</td>
-      <td>Stack name of module implementing LambdaDependency to generate IAM Policy</td>
+      <td>Stack name of module implementing LambdaDependency to generate IAM Policy. Environment variable `DEPENDENCY1_ARN` will contain the ARN of the dependency.</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
       <td>DependencyModule2</td>
-      <td>Stack name of module implementing LambdaDependency to generate IAM Policy</td>
+      <td>Stack name of module implementing LambdaDependency to generate IAM Policy. Environment variable `DEPENDENCY2_ARN` will contain the ARN of the dependency.</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
       <td>DependencyModule3</td>
-      <td>Stack name of module implementing LambdaDependency to generate IAM Policy</td>
+      <td>Stack name of module implementing LambdaDependency to generate IAM Policy. Environment variable `DEPENDENCY2_ARN` will contain the ARN of the dependency.</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
       <td>EnvironmentVariable1</td>
-      <td>Optional value of environment variable VARIABLE1</td>
+      <td>Optional value of environment variable `VARIABLE1`</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
       <td>EnvironmentVariable2</td>
-      <td>Optional value of environment variable VARIABLE2</td>
+      <td>Optional value of environment variable `VARIABLE2`</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
       <td>EnvironmentVariable3</td>
-      <td>Optional value of environment variable VARIABLE3</td>
+      <td>Optional value of environment variable `VARIABLE3`</td>
       <td></td>
       <td>no</td>
       <td></td>
