@@ -136,7 +136,7 @@ Resources:
             Action:
             - 'logs:CreateLogStream'
             - 'logs:PutLogEvents'
-            Resource: '*' # would be nice if IAM would support an ARN here!
+            Resource: !GetAtt 'LogGroup.Arn'
           - !If
             - HasDependencyModule1
             - Effect: Allow
