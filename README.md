@@ -46,6 +46,7 @@ Resources:
         EnvironmentVariable1: '' # optional
         EnvironmentVariable2: '' # optional
         EnvironmentVariable3: '' # optional
+        ManagedPolicyArns: '' # optional
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
 
@@ -192,6 +193,13 @@ Resources:
     <tr>
       <td>EnvironmentVariable3</td>
       <td>Optional value of environment variable `VARIABLE3`</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ManagedPolicyArns</td>
+      <td>Comma-delimited list of IAM managed policy ARNs to attach to the task's IAM role</td>
       <td></td>
       <td>no</td>
       <td></td>

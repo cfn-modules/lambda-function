@@ -108,6 +108,10 @@ Parameters:
     Description: 'Optional value of environment variable VARIABLE3'
     Type: String
     Default: ''
+  ManagedPolicyArns:
+    Description: 'Comma-delimited list of IAM managed policy ARNs to attach to the task''s IAM role'
+    Type: String
+    Default: ''
 Conditions:
   HasAlertingModule: !Not [!Equals [!Ref AlertingModule, '']]
   HasKmsKeyModule: !Not [!Equals [!Ref KmsKeyModule, '']]
@@ -128,6 +132,7 @@ Resources:
           Principal:
             Service: 'lambda.amazonaws.com'
           Action: 'sts:AssumeRole'
+      ManagedPolicyArns: !Split [',', !Ref ManagedPolicyArns]
       Policies:
       - PolicyName: 'cfn-modules'
         PolicyDocument:
@@ -239,7 +244,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '1.1.0'
+    Value: '1.2.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
