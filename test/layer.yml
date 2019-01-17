@@ -1,0 +1,24 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'cfn-modules test'
+Parameters:
+  ContentBucket:
+    Type: String
+  ContentKey:
+    Type: String
+Resources:
+  Layer:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      Parameters:
+        ContentBucket: !Ref ContentBucket
+        ContentKey: !Ref ContentKey
+      TemplateURL: './node_modules/@cfn-modules/lambda-layer/module.yml'
+  Function:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      Parameters:
+        Handler: 'defaults.handler'
+        Runtime: 'nodejs8.10'
+        LayerModule: !GetAtt 'Layer.Outputs.StackName'
+      TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'

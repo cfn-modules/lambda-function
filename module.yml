@@ -49,6 +49,10 @@ Parameters:
     Description: 'Optional but recommended for async invocations stack name of sqs-queue module where Lambda sends events to after the maximum number of retries was reached'
     Type: String
     Default: ''
+  LayerModule:
+    Description: 'Optional stack name of lambda-layer module.'
+    Type: String
+    Default: ''
   Description:
     Description: 'Optional description of the function'
     Type: String
@@ -116,6 +120,7 @@ Conditions:
   HasAlertingModule: !Not [!Equals [!Ref AlertingModule, '']]
   HasKmsKeyModule: !Not [!Equals [!Ref KmsKeyModule, '']]
   HasDeadLetterQueueModule: !Not [!Equals [!Ref DeadLetterQueueModule, '']]
+  HasLayerModule: !Not [!Equals [!Ref LayerModule, '']]
   HasReservedConcurrentExecutions: !Not [!Equals [!Ref ReservedConcurrentExecutions, -1]]
   HasVpcModule: !Not [!Equals [!Ref VpcModule, '']]
   HasDependencyModule1: !Not [!Equals [!Ref DependencyModule1, '']]
@@ -203,6 +208,8 @@ Resources:
       - SecurityGroupIds: [!Ref SecurityGroup]
         SubnetIds: !Split [',', {'Fn::ImportValue': !Sub '${VpcModule}-SubnetIdsPrivate'}]
       - !Ref 'AWS::NoValue'
+      Layers:
+      - !If [HasLayerModule, {'Fn::ImportValue': !Sub '${LayerModule}-Arn'}, !Ref 'AWS::NoValue']
   ErrorsTooHighAlarm:
     Condition: HasAlertingModule
     Type: 'AWS::CloudWatch::Alarm'
@@ -245,7 +252,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '1.2.0'
+    Value: '1.3.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
