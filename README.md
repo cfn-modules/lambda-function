@@ -147,7 +147,7 @@ Resources:
       <td>The function execution time at which Lambda should terminate the function</td>
       <td>3</td>
       <td>no</td>
-      <td>[1-300]</td>
+      <td>[1-900]</td>
     </tr>
     <tr>
       <td>TracingConfigMode</td>
