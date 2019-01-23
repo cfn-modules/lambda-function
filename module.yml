@@ -74,7 +74,7 @@ Parameters:
     Type: Number
     Default: 3
     MinValue: 1
-    MaxValue: 300
+    MaxValue: 900
   TracingConfigMode:
     Type: String
     Default: PassThrough
@@ -109,7 +109,7 @@ Parameters:
     Type: String
     Default: ''
   ManagedPolicyArns:
-    Description: 'Comma-delimited list of IAM managed policy ARNs to attach to the task''s IAM role'
+    Description: 'Optional comma-delimited list of IAM managed policy ARNs to attach to the task''s IAM role'
     Type: String
     Default: ''
 Conditions:
@@ -245,7 +245,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '1.2.0'
+    Value: '1.2.1'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
