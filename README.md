@@ -218,6 +218,6 @@ Resources:
 
 ## Migration Guides
 
-### Migrate to 2.x.x
+### Migrate to v2
 
 * The `lambda-layer` module is no longer supported. Replace the `LayerModule` parameter with a comma-delimited list of Layer ARNs to attach to the function `LayerArns`. Define the Lambda layer in your own template.
