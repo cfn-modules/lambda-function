@@ -49,10 +49,6 @@ Parameters:
     Description: 'Optional but recommended for async invocations stack name of sqs-queue module where Lambda sends events to after the maximum number of retries was reached'
     Type: String
     Default: ''
-  LayerModule:
-    Description: 'Optional stack name of lambda-layer module.'
-    Type: String
-    Default: ''
   Description:
     Description: 'Optional description of the function'
     Type: String
@@ -116,17 +112,21 @@ Parameters:
     Description: 'Optional comma-delimited list of IAM managed policy ARNs to attach to the task''s IAM role'
     Type: String
     Default: ''
+  LayerArns:
+    Description: 'Optional comma-delimited list of Layer ARNs to attach to the function'
+    Type: String
+    Default: ''
 Conditions:
   HasAlertingModule: !Not [!Equals [!Ref AlertingModule, '']]
   HasKmsKeyModule: !Not [!Equals [!Ref KmsKeyModule, '']]
   HasDeadLetterQueueModule: !Not [!Equals [!Ref DeadLetterQueueModule, '']]
-  HasLayerModule: !Not [!Equals [!Ref LayerModule, '']]
   HasReservedConcurrentExecutions: !Not [!Equals [!Ref ReservedConcurrentExecutions, -1]]
   HasVpcModule: !Not [!Equals [!Ref VpcModule, '']]
   HasDependencyModule1: !Not [!Equals [!Ref DependencyModule1, '']]
   HasDependencyModule2: !Not [!Equals [!Ref DependencyModule2, '']]
   HasDependencyModule3: !Not [!Equals [!Ref DependencyModule3, '']]
   HasManagedPolicyArns: !Not [!Equals [!Ref ManagedPolicyArns, '']]
+  HasLayerArns: !Not [!Equals [!Ref LayerArns, '']]
 Resources:
   Role:
     Type: 'AWS::IAM::Role'
@@ -208,8 +208,7 @@ Resources:
       - SecurityGroupIds: [!Ref SecurityGroup]
         SubnetIds: !Split [',', {'Fn::ImportValue': !Sub '${VpcModule}-SubnetIdsPrivate'}]
       - !Ref 'AWS::NoValue'
-      Layers:
-      - !If [HasLayerModule, {'Fn::ImportValue': !Sub '${LayerModule}-Arn'}, !Ref 'AWS::NoValue']
+      Layers: !If [HasLayerArns, !Split [',', !Ref LayerArns], !Ref 'AWS::NoValue']
   ErrorsTooHighAlarm:
     Condition: HasAlertingModule
     Type: 'AWS::CloudWatch::Alarm'

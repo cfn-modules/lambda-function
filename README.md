@@ -32,7 +32,6 @@ Resources:
         KmsKeyModule: !GetAtt 'Key.Outputs.StackName' # optional
         VpcModule: !GetAtt 'Vpc.Outputs.StackName' # optional
         DeadLetterQueueModule: !GetAtt 'Queue.Outputs.StackName' # optional
-        LayerModule: !GetAtt 'Layer.Outputs.StackName' # optional
         Description: '' # optional
         Handler: 'example.handler' # required (file must be in the `lambda-src` folder)
         MemorySize: '128' # optional
@@ -48,6 +47,7 @@ Resources:
         EnvironmentVariable2: '' # optional
         EnvironmentVariable3: '' # optional
         ManagedPolicyArns: '' # optional
+        LayerArns: '' # optional
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
 
@@ -96,13 +96,6 @@ Resources:
     <tr>
       <td>DeadLetterQueueModule</td>
       <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/sqs-queue">sqs-queue module</a> where Lambda sends events to after the maximum number of retries was reached</td>
-      <td></td>
-      <td>no</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>LayerModule</td>
-      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/lambda-layer">lambda-layer module</a></td>
       <td></td>
       <td>no</td>
       <td></td>
@@ -212,5 +205,19 @@ Resources:
       <td>no</td>
       <td></td>
     </tr>
+    <tr>
+      <td>LayerArns</td>
+      <td>Comma-delimited list of Layer ARNs to attach to the function</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
+
+
+## Migration Guides
+
+### Migrate to 2.x.x
+
+* The `lambda-layer` module is no longer supported. Replace the `LayerModule` parameter with a comma-delimited list of Layer ARNs to attach to the function `LayerArns`. Define the Lambda layer in your own template.
