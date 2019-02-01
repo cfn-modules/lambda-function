@@ -8,17 +8,16 @@ Parameters:
     Type: String
 Resources:
   Layer:
-    Type: 'AWS::CloudFormation::Stack'
+    Type: 'AWS::Lambda::LayerVersion'
     Properties:
-      Parameters:
-        ContentBucket: !Ref ContentBucket
-        ContentKey: !Ref ContentKey
-      TemplateURL: './node_modules/@cfn-modules/lambda-layer/module.yml'
+      Content:
+        S3Bucket: !Ref ContentBucket
+        S3Key: !Ref ContentKey
   Function:
     Type: 'AWS::CloudFormation::Stack'
     Properties:
       Parameters:
         Handler: 'defaults.handler'
         Runtime: 'nodejs8.10'
-        LayerModule: !GetAtt 'Layer.Outputs.StackName'
+        LayerArns: !Ref Layer
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
