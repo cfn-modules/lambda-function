@@ -251,7 +251,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '1.3.1'
+    Value: '2.0.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
