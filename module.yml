@@ -117,15 +117,15 @@ Parameters:
     Type: String
     Default: ''
   ClientSgModule1:
-    Description: 'Optional stack name of client-sg module to mark traffic from the Lambda.'
+    Description: 'Optional stack name of client-sg module to mark traffic from the Lambda function.'
     Type: String
     Default: ''
   ClientSgModule2:
-    Description: 'Optional stack name of client-sg module to mark traffic from the Lambda.'
+    Description: 'Optional stack name of client-sg module to mark traffic from the Lambda function.'
     Type: String
     Default: ''
   ClientSgModule3:
-    Description: 'Optional stack name of client-sg module to mark traffic from the Lambda.'
+    Description: 'Optional stack name of client-sg module to mark traffic from the Lambda function.'
     Type: String
     Default: ''
 Conditions:
@@ -279,7 +279,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '2.0.0'
+    Value: '2.1.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:

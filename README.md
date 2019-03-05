@@ -48,6 +48,9 @@ Resources:
         EnvironmentVariable3: '' # optional
         ManagedPolicyArns: '' # optional
         LayerArns: '' # optional
+        ClientSgModule1: '' # optional
+        ClientSgModule2: '' # optional
+        ClientSgModule3: '' # optional
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
 
@@ -208,6 +211,27 @@ Resources:
     <tr>
       <td>LayerArns</td>
       <td>Comma-delimited list of Layer ARNs to attach to the function</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ClientSgModule1</td>
+      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> module to mark traffic from Lambda function (requires VpcModule parameter)</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ClientSgModule2</td>
+      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> module to mark traffic from Lambda function (requires VpcModule parameter)</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ClientSgModule3</td>
+      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> module to mark traffic from Lambda function (requires VpcModule parameter)</td>
       <td></td>
       <td>no</td>
       <td></td>
