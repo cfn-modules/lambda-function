@@ -149,6 +149,15 @@ Resources:
             - 'logs:PutLogEvents'
             Resource: !GetAtt 'LogGroup.Arn'
           - !If
+            - HasVpcModule
+            - Effect: Allow
+              Action:
+              - 'ec2:CreateNetworkInterface'
+              - 'ec2:DescribeNetworkInterfaces'
+              - 'ec2:DeleteNetworkInterface'
+              Resource: '*'
+            - !Ref 'AWS::NoValue'
+          - !If
             - HasDependencyModule1
             - Effect: Allow
               Action: !Split [',', {'Fn::ImportValue': !Sub '${DependencyModule1}-IamActions'}]
