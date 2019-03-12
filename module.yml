@@ -249,6 +249,7 @@ Resources:
       EvaluationPeriods: 1
       ComparisonOperator: GreaterThanThreshold
       Threshold: 0
+      TreatMissingData: 'ignore'
       AlarmActions:
       - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
       OKActions:
@@ -268,6 +269,7 @@ Resources:
       EvaluationPeriods: 1
       ComparisonOperator: GreaterThanThreshold
       Threshold: 0
+      TreatMissingData: 'ignore'
       AlarmActions:
       - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
       OKActions:
