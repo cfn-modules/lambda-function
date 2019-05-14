@@ -4,7 +4,7 @@ python:
 - '2.7'
 install:
 - 'pip install yamllint==1.15.0'
-- 'pip install cfn-lint==0.14.0'
+- 'pip install cfn-lint==0.20.1'
 script:
 - 'yamllint module.yml'
 - 'cfn-lint -i W3002 -t module.yml'
