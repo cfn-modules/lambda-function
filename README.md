@@ -136,7 +136,7 @@ Resources:
       <td>The runtime environment for the Lambda function that you are uploading</td>
       <td></td>
       <td>no</td>
-      <td>['nodejs6.10', 'nodejs8.10', java8, 'python2.7', 'python3.6', 'dotnetcore1.0', 'dotnetcore2.0', 'go1.x']</td>
+      <td>['dotnetcore1.0', 'dotnetcore2.1', 'go1.x', 'java8', 'nodejs10.x', 'nodejs8.10', 'python2.7', 'python3.6', 'python3.7', 'ruby2.5']</td>
     </tr>
     <tr>
       <td>Timeout</td>
