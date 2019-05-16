@@ -109,7 +109,7 @@ Parameters:
     Type: String
     Default: ''
   ManagedPolicyArns:
-    Description: 'Optional comma-delimited list of IAM managed policy ARNs to attach to the task''s IAM role'
+    Description: 'Optional comma-delimited list of IAM managed policy ARNs to attach to the function''s IAM role'
     Type: String
     Default: ''
   LayerArns:
