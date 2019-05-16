@@ -68,7 +68,7 @@ Parameters:
   Runtime:
     Description: 'The runtime environment for the Lambda function that you are uploading'
     Type: String
-    AllowedValues: ['nodejs6.10', 'nodejs8.10', java8, 'python2.7', 'python3.6', 'dotnetcore1.0', 'dotnetcore2.0', 'go1.x']
+    AllowedValues: ['dotnetcore1.0', 'dotnetcore2.1', 'go1.x', 'java8', 'nodejs10.x', 'nodejs8.10', 'python2.7', 'python3.6', 'python3.7', 'ruby2.5']
   Timeout:
     Description: 'The function execution time at which Lambda should terminate the function'
     Type: Number
@@ -109,7 +109,7 @@ Parameters:
     Type: String
     Default: ''
   ManagedPolicyArns:
-    Description: 'Optional comma-delimited list of IAM managed policy ARNs to attach to the task''s IAM role'
+    Description: 'Optional comma-delimited list of IAM managed policy ARNs to attach to the function''s IAM role'
     Type: String
     Default: ''
   LayerArns:
@@ -281,7 +281,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '2.2.0'
+    Value: '2.3.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
