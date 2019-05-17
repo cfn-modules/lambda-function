@@ -54,6 +54,16 @@ Resources:
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
 ```
 
+## Examples
+
+* [serverless-cron](https://github.com/cfn-modules/docs/tree/master/examples/serverless-cron)
+* [serverless-iam](https://github.com/cfn-modules/docs/tree/master/examples/serverless-iam)
+* [serverless-image-resize](https://github.com/cfn-modules/docs/tree/master/examples/serverless-image-resize)
+* [serverless-sqs-queue](https://github.com/cfn-modules/docs/tree/master/examples/serverless-sqs-queue)
+* [serverless-webhook](https://github.com/cfn-modules/docs/tree/master/examples/serverless-webhook)
+
+## Related modules
+
 ### Event sources
 
 * [Cron](https://www.npmjs.com/package/@cfn-modules/lambda-event-source-cron)
