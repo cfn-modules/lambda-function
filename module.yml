@@ -16,8 +16,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'cfn-modules: AWS Lambda function'
 # cfn-modules:implements(ExposeArn, ExposeName, LambdaDependency)
 # TODO integrate with event sources
-# * Amazon DynamoDB (via standalone module using AWS::Lambda::EventSourceMapping, waits for DynamoDB stream support in dynamodb-table module)
-# * Amazon Kinesis Data Streams (via standalone module using AWS::Lambda::EventSourceMapping, waits for Kinesis stream module)
 # * Amazon Simple Notification Service (via standalone module using AWS::SNS::Subscription)
 # * Amazon Simple Email Service (via TODO)
 # * Amazon Cognito (via TODO)
