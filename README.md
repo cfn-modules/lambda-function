@@ -32,6 +32,7 @@ Resources:
         KmsKeyModule: !GetAtt 'Key.Outputs.StackName' # optional
         VpcModule: !GetAtt 'Vpc.Outputs.StackName' # optional
         DeadLetterQueueModule: !GetAtt 'Queue.Outputs.StackName' # optional
+        FunctionName: '' #optional
         Description: '' # optional
         Handler: 'example.handler' # required (file must be in the `lambda-src` folder)
         MemorySize: '128' # optional
@@ -109,6 +110,13 @@ Resources:
     <tr>
       <td>DeadLetterQueueModule</td>
       <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/sqs-queue">sqs-queue module</a> where Lambda sends events to after the maximum number of retries was reached</td>
+      <td></td>
+      <td>no</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>FunctionName</td>
+      <td>An optional but recommended name for the function and log group.</td>
       <td></td>
       <td>no</td>
       <td></td>

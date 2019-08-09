@@ -12,6 +12,17 @@ test.serial('defaults', async t => {
   }
 });
 
+test.serial('named', async t => {
+  const stackName = cfntest.stackName();
+  try {
+    t.log(await cfntest.createStack(`${__dirname}/named.yml`, stackName, {}));
+    // what could we test here?
+  } finally {
+    t.log(await cfntest.deleteStack(stackName));
+    t.pass();
+  }
+});
+
 test.serial('lambda-layer', async t => {
   const bucketStackName = cfntest.stackName();
   const stackName = cfntest.stackName();
