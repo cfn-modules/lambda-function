@@ -252,7 +252,7 @@ Resources:
       EvaluationPeriods: 1
       ComparisonOperator: GreaterThanThreshold
       Threshold: 0
-      TreatMissingData: 'ignore'
+      TreatMissingData: notBreaching
       AlarmActions:
       - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
       OKActions:
@@ -272,7 +272,7 @@ Resources:
       EvaluationPeriods: 1
       ComparisonOperator: GreaterThanThreshold
       Threshold: 0
-      TreatMissingData: 'ignore'
+      TreatMissingData: notBreaching
       AlarmActions:
       - 'Fn::ImportValue': !Sub '${AlertingModule}-Arn'
       OKActions:
@@ -284,7 +284,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '2.4.0'
+    Value: '2.4.1'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
