@@ -7,5 +7,5 @@ Resources:
     Properties:
       Parameters:
         Handler: 'defaults.handler'
-        Runtime: 'nodejs8.10'
+        Runtime: 'nodejs10.x'
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'
