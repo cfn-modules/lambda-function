@@ -176,7 +176,7 @@ Resources:
               - 'ec2:DeleteNetworkInterface'
               Resource: '*'
             - !Ref 'AWS::NoValue'
-          - !If 
+          - !If
             - HasDeadLetterQueueModule
             - Effect: Allow
               Action: 'sqs:SendMessage'
