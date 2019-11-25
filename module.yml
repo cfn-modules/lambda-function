@@ -70,7 +70,7 @@ Parameters:
   Runtime:
     Description: 'The runtime environment for the Lambda function that you are uploading'
     Type: String
-    AllowedValues: ['dotnetcore1.0', 'dotnetcore2.1', 'go1.x', 'java8', 'nodejs10.x', 'nodejs8.10', 'python2.7', 'python3.6', 'python3.7', 'ruby2.5']
+    AllowedValues: ['nodejs12.x', 'nodejs10.x', 'nodejs8.10', 'python3.8', 'python3.7', 'python3.6', 'python2.7', 'ruby2.5', 'java11', 'java8', 'dotnetcore2.1', 'go1.x']
   Timeout:
     Description: 'The function execution time at which Lambda should terminate the function'
     Type: Number
@@ -145,6 +145,7 @@ Conditions:
   HasClientSgModule1: !Not [!Equals [!Ref ClientSgModule1, '']]
   HasClientSgModule2: !Not [!Equals [!Ref ClientSgModule2, '']]
   HasClientSgModule3: !Not [!Equals [!Ref ClientSgModule3, '']]
+  HasTracingConfigModeActive: !Equals [!Ref TracingConfigMode, Active]
 Resources:
   Role:
     Type: 'AWS::IAM::Role'
@@ -173,6 +174,23 @@ Resources:
               - 'ec2:CreateNetworkInterface'
               - 'ec2:DescribeNetworkInterfaces'
               - 'ec2:DeleteNetworkInterface'
+              Resource: '*'
+            - !Ref 'AWS::NoValue'
+          - !If 
+            - HasDeadLetterQueueModule
+            - Effect: Allow
+              Action: 'sqs:SendMessage'
+              Resource: {'Fn::ImportValue': !Sub '${DeadLetterQueueModule}-Arn'}
+            - !Ref 'AWS::NoValue'
+          - !If
+            - HasTracingConfigModeActive
+            - Effect: Allow
+              Action:
+              - 'xray:PutTraceSegments'
+              - 'xray:PutTelemetryRecords'
+              - 'xray:GetSamplingRules'
+              - 'xray:GetSamplingTargets'
+              - 'xray:GetSamplingStatisticSummaries'
               Resource: '*'
             - !Ref 'AWS::NoValue'
           - !If
@@ -284,7 +302,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '2.5.0'
+    Value: '2.6.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
