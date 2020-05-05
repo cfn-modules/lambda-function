@@ -235,21 +235,21 @@ Resources:
     </tr>
     <tr>
       <td>ClientSgModule1</td>
-      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> module to mark traffic from Lambda function (requires VpcModule parameter)</td>
+      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> to mark traffic from Lambda function (requires VpcModule parameter)</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
       <td>ClientSgModule2</td>
-      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> module to mark traffic from Lambda function (requires VpcModule parameter)</td>
+      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> to mark traffic from Lambda function (requires VpcModule parameter)</td>
       <td></td>
       <td>no</td>
       <td></td>
     </tr>
     <tr>
       <td>ClientSgModule3</td>
-      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> module to mark traffic from Lambda function (requires VpcModule parameter)</td>
+      <td>Stack name of <a href="https://www.npmjs.com/package/@cfn-modules/client-sg">client-sg module</a> to mark traffic from Lambda function (requires VpcModule parameter)</td>
       <td></td>
       <td>no</td>
       <td></td>
