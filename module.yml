@@ -110,6 +110,14 @@ Parameters:
     Description: 'Optional value of environment variable VARIABLE3'
     Type: String
     Default: ''
+  EnvironmentVariable4:
+    Description: 'Optional value of environment variable VARIABLE4'
+    Type: String
+    Default: ''
+  EnvironmentVariable5:
+    Description: 'Optional value of environment variable VARIABLE5'
+    Type: String
+    Default: ''
   ManagedPolicyArns:
     Description: 'Optional comma-delimited list of IAM managed policy ARNs to attach to the function''s IAM role'
     Type: String
@@ -235,6 +243,8 @@ Resources:
           VARIABLE1: !Ref EnvironmentVariable1
           VARIABLE2: !Ref EnvironmentVariable2
           VARIABLE3: !Ref EnvironmentVariable3
+          VARIABLE4: !Ref EnvironmentVariable4
+          VARIABLE5: !Ref EnvironmentVariable5
           DEPENDENCY1_ARN: !If [HasDependencyModule1, {'Fn::ImportValue': !Sub '${DependencyModule1}-Arn'}, '']
           DEPENDENCY2_ARN: !If [HasDependencyModule2, {'Fn::ImportValue': !Sub '${DependencyModule2}-Arn'}, '']
           DEPENDENCY3_ARN: !If [HasDependencyModule3, {'Fn::ImportValue': !Sub '${DependencyModule3}-Arn'}, '']
@@ -302,7 +312,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '2.6.0'
+    Value: '2.7.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
