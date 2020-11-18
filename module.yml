@@ -268,6 +268,14 @@ Resources:
         SubnetIds: !Split [',', {'Fn::ImportValue': !Sub '${VpcModule}-SubnetIdsPrivate'}]
       - !Ref 'AWS::NoValue'
       Layers: !If [HasLayerArns, !Split [',', !Ref LayerArns], !Ref 'AWS::NoValue']
+  EventInvokeConfig:
+    Condition: HasDeadLetterQueueModule
+    Type: AWS::Lambda::EventInvokeConfig
+    Properties: 
+      FunctionName: !Ref Function
+      MaximumEventAgeInSeconds: 300
+      MaximumRetryAttempts: 10
+      Qualifier: Latest
   ErrorsTooHighAlarm:
     Condition: HasAlertingModule
     Type: 'AWS::CloudWatch::Alarm'
@@ -312,7 +320,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '2.7.0'
+    Value: '2.8.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
