@@ -270,12 +270,12 @@ Resources:
       Layers: !If [HasLayerArns, !Split [',', !Ref LayerArns], !Ref 'AWS::NoValue']
   EventInvokeConfig:
     Condition: HasDeadLetterQueueModule
-    Type: AWS::Lambda::EventInvokeConfig
+    Type: 'AWS::Lambda::EventInvokeConfig'
     Properties:
       FunctionName: !Ref Function
       MaximumEventAgeInSeconds: 60
       MaximumRetryAttempts: 2
-      Qualifier: Latest
+      Qualifier: '$LATEST'
   ErrorsTooHighAlarm:
     Condition: HasAlertingModule
     Type: 'AWS::CloudWatch::Alarm'
