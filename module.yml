@@ -273,8 +273,8 @@ Resources:
     Type: AWS::Lambda::EventInvokeConfig
     Properties:
       FunctionName: !Ref Function
-      MaximumEventAgeInSeconds: 300
-      MaximumRetryAttempts: 10
+      MaximumEventAgeInSeconds: 60
+      MaximumRetryAttempts: 2
       Qualifier: Latest
   ErrorsTooHighAlarm:
     Condition: HasAlertingModule
