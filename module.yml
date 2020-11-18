@@ -271,7 +271,7 @@ Resources:
   EventInvokeConfig:
     Condition: HasDeadLetterQueueModule
     Type: AWS::Lambda::EventInvokeConfig
-    Properties: 
+    Properties:
       FunctionName: !Ref Function
       MaximumEventAgeInSeconds: 300
       MaximumRetryAttempts: 10
