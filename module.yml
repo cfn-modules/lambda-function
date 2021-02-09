@@ -70,7 +70,6 @@ Parameters:
   Runtime:
     Description: 'The runtime environment for the Lambda function that you are uploading'
     Type: String
-    AllowedValues: ['nodejs12.x', 'nodejs10.x', 'python3.8', 'python3.7', 'python3.6', 'python2.7', 'ruby2.5', 'java11', 'java8', 'dotnetcore2.1', 'go1.x']
   Timeout:
     Description: 'The function execution time at which Lambda should terminate the function'
     Type: Number
@@ -320,7 +319,7 @@ Outputs:
   ModuleId:
     Value: 'lambda-function'
   ModuleVersion:
-    Value: '2.8.0'
+    Value: '2.9.0'
   StackName:
     Value: !Ref 'AWS::StackName'
   Arn:
