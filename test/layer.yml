@@ -18,6 +18,6 @@ Resources:
     Properties:
       Parameters:
         Handler: 'defaults.handler'
-        Runtime: 'nodejs12.x'
+        Runtime: 'nodejs14.x'
         LayerArns: !Ref Layer
       TemplateURL: './node_modules/@cfn-modules/lambda-function/module.yml'

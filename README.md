@@ -34,7 +34,7 @@ Resources:
         Handler: 'example.handler' # required (file must be in the `lambda-src` folder)
         MemorySize: '128' # optional
         ReservedConcurrentExecutions: '-1' # optional
-        Runtime: 'nodejs12.x' # required
+        Runtime: 'nodejs14.x' # required
         Timeout: '3' # optional
         TracingConfigMode: PassThrough # optional
         LogGroupRetentionInDays: '14' # optional
@@ -153,7 +153,7 @@ Resources:
       <td>The runtime environment for the Lambda function that you are uploading</td>
       <td></td>
       <td>no</td>
-      <td>['nodejs12.x', 'nodejs10.x', 'python3.8', 'python3.7', 'python3.6', 'python2.7', 'ruby2.5', 'java11', 'java8', 'dotnetcore2.1', 'go1.x']</td>
+      <td>See <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html#cfn-lambda-function-runtime">Runtime doc</a></td>
     </tr>
     <tr>
       <td>Timeout</td>
