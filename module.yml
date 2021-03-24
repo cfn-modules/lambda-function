@@ -63,7 +63,7 @@ Parameters:
     Type: Number
     Default: 128
     MinValue: 128
-    MaxValue: 3008
+    MaxValue: 10240
   ReservedConcurrentExecutions:
     Type: Number
     Default: -1

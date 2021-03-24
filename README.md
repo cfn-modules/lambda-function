@@ -139,7 +139,7 @@ Resources:
       <td>The amount of memory, in MB, that is allocated to your Lambda function</td>
       <td></td>
       <td>no</td>
-      <td>[128-3008] and a multiple of 64</td>
+      <td>[128-10240]</td>
     </tr>
     <tr>
       <td>ReservedConcurrentExecutions</td>
