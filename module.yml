@@ -222,7 +222,7 @@ Resources:
     Condition: HasVpcModule
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: !Ref AWS::StackName
+      GroupDescription: !Ref 'AWS::StackName'
       VpcId:
         'Fn::ImportValue': !Sub '${VpcModule}-Id'
   LogGroup:
