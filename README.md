@@ -34,7 +34,7 @@ Resources:
         Handler: 'example.handler' # required (file must be in the `lambda-src` folder)
         MemorySize: '128' # optional
         ReservedConcurrentExecutions: '-1' # optional
-        Runtime: 'nodejs14.x' # required
+        Runtime: 'nodejs16.x' # required
         Timeout: '3' # optional
         TracingConfigMode: PassThrough # optional
         LogGroupRetentionInDays: '14' # optional
