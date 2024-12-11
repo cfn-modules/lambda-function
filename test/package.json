@@ -3,7 +3,7 @@
   "dependencies": {
     "eslint": "7.6.0",
     "ava": "3.11.1",
-    "@cfn-modules/test": "0.7.3",
+    "@cfn-modules/test": "0.9.1",
     "@cfn-modules/s3-bucket": "1.6.0",
     "@cfn-modules/lambda-function": "file:../"
   },
