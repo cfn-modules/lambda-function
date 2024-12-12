@@ -144,6 +144,7 @@ Conditions:
   HasReservedConcurrentExecutions: !Not [!Equals [!Ref ReservedConcurrentExecutions, -1]]
   HasVpcModule: !Not [!Equals [!Ref VpcModule, '']]
   HasFunctionName: !Not [!Equals [!Ref FunctionName, '']]
+  HasDescription: !Not [!Equals [!Ref Description, '']]
   HasDependencyModule1: !Not [!Equals [!Ref DependencyModule1, '']]
   HasDependencyModule2: !Not [!Equals [!Ref DependencyModule2, '']]
   HasDependencyModule3: !Not [!Equals [!Ref DependencyModule3, '']]
@@ -236,7 +237,7 @@ Resources:
     Properties:
       Code: '../../../lambda-src/' # we can not make this a parameter because `aws cloudformation package` does not take parameters into account
       DeadLetterConfig: !If [HasDeadLetterQueueModule, {TargetArn: {'Fn::ImportValue': !Sub '${DeadLetterQueueModule}-Arn'}}, !Ref 'AWS::NoValue']
-      Description: !Ref Description
+      Description: !If [HasDescription, !Ref Description, !Ref AWS::NoValue]
       Environment:
         Variables:
           VARIABLE1: !Ref EnvironmentVariable1
